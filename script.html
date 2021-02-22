@@ -12,7 +12,12 @@
 <script type="text/javascript" src="./js/textarea-as-ace-editor.js"></script>
 <script type="text/javascript" src="./yaml-d/dist/yaml.js"></script>
 <script type="text/javascript" src="./xml-to-json/xmltojson.js"></script>
+<script src='./test/bundle.js'></script>
 <script type="text/javascript">
+
+$(window).resize(function() {
+        location.reload();
+});
 
 var x2js = new X2JS();
 var jsonViewer = new JSONViewer();
@@ -24,12 +29,6 @@ function convertXml2JSon() {
         $("#jsonArea").val(jsoneditor.getSession().getValue());
         
    });
-    // $("#jsonArea").val(JSON.stringify(x2js.xml_str2json($("#xmlArea").val()), undefined, 2));
-    // var resultJson = JSON.parse(JSON.stringify(x2js.xml_str2json($("#xmlArea").val())));
-    // document.querySelector("#test").appendChild(jsonViewer.getContainer());
-    // // $("#jsonArea").val((jsonViewer.getContainer()));
-    // jsonViewer.showJSON(resultJson);
-    
 }
 
 function convertToYamlBtn() {
@@ -73,38 +72,12 @@ async function readText(event) {
   console.log("File Extension ->-> "+file_ext);
   if(file_ext == "xml"){
    
-    // $('textarea[data-editor="xml"]').each(function() {
-    // var textarea = $(this);
-    // var mode = textarea.data('editor');
-    // var editDiv = $('<div>', {
-    //   position: 'absolute',
-    //   width: textarea.width(),
-    //   height: textarea.height(),
-    //   'class': textarea.attr('class')
-    // }).insertBefore(textarea);
-    // textarea.css('display', 'none');
-    // var xmleditor = ace.edit(editDiv[0]);
-    // xmleditor.renderer.setShowGutter(textarea.data('gutter'));
-    // alert(text)
     xmleditor.getSession().setValue(text);
-    // xmleditor.getSession().setMode("ace/mode/" + mode);
-    // xmleditor.setTheme("ace/theme/twilight");
-    // $("#xmlArea").val(xmleditor.getSession().getValue());
     xmleditor.getSession().on('change', function () {
-        // if(mode == "xml") {
             $("#xmlArea").val(xmleditor.getSession().getValue());
-        // }
-        // else if(mode == "json") {
-        //     $("#jsonArea").val(editor.getSession().getValue());
-        // }
-        
    });
-    // })
   }
   else if(file_ext == "json"){
-    // var obj = JSON.parse( text );
-    // var pretty = JSON.stringify(obj, undefined, 2);
-    // $("#jsonArea").val(pretty);
     jsoneditor.getSession().setValue(text);
     jsoneditor.getSession().on('change', function () {
         $("#jsonArea").val(jsoneditor.getSession().getValue());
@@ -169,13 +142,13 @@ $(function() {
     var textarea = $(this);
     var mode = textarea.data('editor');
     var editDiv = $('<div>', {
-      position: 'absolute',
+      position: 'relative',
       width: textarea.width(),
       height: textarea.height(),
       'class': textarea.attr('class')
     }).insertBefore(textarea);
     // textarea.css('display', 'none');
-    textarea.css('position', 'absolute');
+    textarea.css('position', 'relative');
     textarea.css('opacity', '.01');
     textarea.css('height', '0');
     textarea.css('overflow', 'hidden');
@@ -199,13 +172,13 @@ $(function() {
     var textarea = $(this);
     var mode = textarea.data('editor');
     var editDiv = $('<div>', {
-      position: 'absolute',
+      position: 'relative',
       width: textarea.width(),
       height: textarea.height(),
       'class': textarea.attr('class')
     }).insertBefore(textarea);
     // textarea.css('display', 'none');
-    textarea.css('position', 'absolute');
+    textarea.css('position', 'relative');
     textarea.css('opacity', '.01');
     textarea.css('height', '0');
     textarea.css('overflow', 'hidden');
@@ -226,13 +199,13 @@ $(function() {
     var textarea = $(this);
     var mode = textarea.data('editor');
     var editDiv = $('<div>', {
-      position: 'absolute',
+      position: 'relative',
       width: textarea.width(),
       height: textarea.height(),
       'class': textarea.attr('class')
     }).insertBefore(textarea);
     // textarea.css('display', 'none');
-    textarea.css('position', 'absolute');
+    textarea.css('position', 'relative');
     textarea.css('opacity', '.01');
     textarea.css('height', '0');
     textarea.css('overflow', 'hidden');
@@ -249,17 +222,37 @@ $(function() {
         
    });
     });
+
+    
 });
 </script>
 <style>
     .editTestArea {
        border: 1px solid;
+       width: 100%;
     }
+    /* .btn-group button { margin: 0 7px; 
+      } */
+
+      /* Smaller than standard 960 (devices and browsers) */
+    @media only screen and (max-width: 959px) {}
+
+    /* Tablet Portrait size to standard 960 (devices and browsers) */
+    @media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+    /* All Mobile Sizes (devices and browser) */
+    @media only screen and (max-width: 767px) {}
+
+    /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+    @media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+    /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+    @media only screen and (max-width: 479px) {}
 </style>
 
 <body>
     
-    <div class="container-fluid" style="margin: auto;" >
+    <div class="container-fluid" >
         <h1 style="width: 100px; margin-left: auto; margin-right: auto; color: brown;">Convertor</h1>
         <div class="section" style="margin-top: 50px;">
             <!-- <input type="file" class="fa fa-upload" id="inputFile" onchange="readText(event)" >
@@ -276,67 +269,99 @@ $(function() {
             
             
         </div>
-        <div class="section" style="padding-top: 20px;">
+        <!-- <div class="section" style="padding-top: 20px;">
             <button class="btn btn-info" onclick="convertXml2JSon()" style="margin-left: 27%;">XML => JSON</button>
             <button class="btn btn-info" onclick="convertToYamlBtn()" style="margin-left: 27%;">JSON => Yaml</button>
-        </div>
-        <div class="row" style="margin: auto;">
+        </div> -->
+        <div class="row">
           <div class="col-sm-3 col-xs-3">
             <h4>XML:</h4>
+            <nav role="navigation" class="navbar-menu pull-right collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li>
+                    <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('xmlArea')"></button>
+                  </li>
+                  <li>
+                    <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="download('xmlArea')"></button>
+                  </li>
+                  <li>
+                    <button class="btn btn-info glyphicon glyphicon-remove" title="Clear text" style="float: right;  margin-bottom: 10px; background-color: #4c8baf;" type="button" onclick="clearText('xmlArea')"></button>
+                  </li>
+                  
+              
+                </ul>
+              
+                <!-- you can also have a form here -->
+               </nav>
             <textarea class="editTestArea" style="box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);" id="xmlArea" name="my-xml-editor" data-editor="xml" data-gutter="1" cols="63" rows="25"></textarea>
-            <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('xmlArea')"></button>
+            <!--2 Add .navbar-collapse class to .navbar element -->
+
+            <!-- <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('xmlArea')"></button>
             <button class="btn btn-info glyphicon glyphicon-remove" title="Clear text" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="clearText('xmlArea')"></button>
-            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('xmlArea')"></button>
+            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('xmlArea')"></button> -->
           </div>
-          <div class="col-sm-3 col-xs-3" style="margin-right: 150px; margin-left: 150px;">
+          <div class=" col-xs-1 center" >
+            <button class="btn btn-info" onclick="convertXml2JSon()" style="margin-top: 250px; padding: 2 2 2 2;" role="button">XML => JSON</button>
+            <button class="btn btn-info" onclick="convertJson2xml()" style="margin-top: 50px; padding: 2 2 2 2;">XML <= JSON</button>
+          </div>
+          <div class="col-sm-3 col-xs-3">
             <h4>JSON:</h4>
+            <nav role="navigation" class="navbar-menu pull-right collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('jsonArea')"></button>
+                </li>
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="download('jsonArea')"></button>
+                </li>
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-remove" title="Clear text" style="float: right;  margin-bottom: 10px; background-color: #4c8baf;" type="button" onclick="clearText('jsonArea')"></button>
+                </li>
+                
+            
+              </ul>
+            
+              <!-- you can also have a form here -->
+             </nav>
             <textarea class="editTestArea" id="jsonArea"  name="my-json-editor" data-editor="json" data-gutter="1" cols="63" rows="25" style="box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);"></textarea>
-            <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('jsonArea')"></button>
+            <!-- <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('jsonArea')"></button>
             <button class="btn btn-info glyphicon glyphicon-remove" title="Clear text"  style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="clearText('jsonArea')"></button>
-            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('jsonArea')"></button>
+            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('jsonArea')"></button> -->
+        </div>
+        <div class="col-sm-1 col-xs-1" >
+          <!-- <div class="btn-group" role="group"></div> -->
+            <button class="btn btn-info" onclick="convertToYamlBtn()" style="margin-top: 250px; padding: 2 2 2 2;">JSON => Yaml</button>
+            <button class="btn btn-info" onclick="convertYamlToJsonBtn()" style="margin-top: 50px; padding: 2 2 2 2;">JSON <= Yaml</button>
+         <!-- </div> -->
         </div>
           <div class="col-sm-3 col-xs-3">
             <h4>YAML:</h4>
+            <nav role="navigation" class="navbar-menu pull-right collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('yamlArea')"></button>
+                </li>
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="download('yamlArea')"></button>
+                </li>
+                <li>
+                  <button class="btn btn-info glyphicon glyphicon-remove" title="Clear text" style="float: right;  margin-bottom: 10px; background-color: #4c8baf;" type="button" onclick="clearText('yamlArea')"></button>
+                </li>
+                
+            
+              </ul>
+            
+              <!-- you can also have a form here -->
+             </nav>
             <textarea class="editTestArea" id="yamlArea" name="my-yaml-editor" data-editor="yaml" data-gutter="1" cols="63" rows="25" style="box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.2);"></textarea>
-            <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('yamlArea')"></button>
+            <!-- <button class="btn btn-info glyphicon glyphicon-download-alt" title="Download" style="float: right; margin-top: 20px; background-color: #4c8baf;" type="button" onclick="download('yamlArea')"></button>
             <button class="btn btn-info glyphicon glyphicon-remove" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="clearText('yamlArea')"></button>
-            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('yamlArea')"></button>
+            <button class="btn btn-info glyphicon glyphicon-copy" title="Copy to clipboard" style="float: right; margin-top: 20px; margin-right: 10px; background-color: #4c8baf;" type="button" onclick="copy('yamlArea')"></button> -->
           </div>
+
+          <!-- <div class="section" style="margin-top: 100px;">
+            <button class="btn btn-info" onclick="convertJson2xml()" style="margin-top: 30px; margin-left: 470px;">XML <= JSON</button>
+            <button class="btn btn-info" onclick="convertYamlToJsonBtn()" style="margin-top: 30px; margin-left: 440px;">JSON <= Yaml</button>
+          </div> -->
         </div>
-        <!-- <div class="section" style="padding-top: 20px;">
-            <button class="btn btn-info" onclick="convertJson2xml()" style="margin-left: 430px;">XML <= JSON</button>
-            <button class="btn btn-info" onclick="convertYamlToJsonBtn()" style="margin-left: 440px;">JSON <= Yaml</button>
-        </div> -->
-      </div>
-    <!-- <div>
-        <input type="file" id="inputFile" onchange="readText(event)" />
-    </div>
-    <div>
-        <button onclick="convertXml2JSon()">XML => JSON</button>
-        <button onclick="convertToYamlBtn()">JSON => Yaml</button>
-    </div>
-   
-   <div>
-    <div style="width: 50%; float:left">
-        <h4>XML:</h4>
-
-        <textarea id="xmlArea" cols="55" rows="15"></textarea>
-        <button type="button" onclick="download('xmlArea')">Save XML</button>
-    </div>
-    
-    <div style="width: 50%; float:right">
-            <h4>JSON:</h4>
-
-        <textarea id="jsonArea" cols="55" rows="15"></textarea>
-        <button type="button" onclick="download('jsonArea')">Save JSON</button>
-    </div>
-    
-   </div>
-   <div style="width: 50%; float:right">
-    <h4>YAML:</h4>
-
-    <textarea id="yamlArea" cols="55" rows="15"></textarea>
-    <button type="button" onclick="download('yamlArea')">Save YAML</button>
-    </div> -->
-   
 </body>
